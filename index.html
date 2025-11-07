@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>First Last — Student Portfolio</title>
+  <meta name="description" content="An elegant, all‑majors student portfolio: academics, projects, activities, and contact." />
+  <meta name="color-scheme" content="light dark">
+  <meta property="og:title" content="First Last — Student Portfolio" />
+  <meta property="og:description" content="An elegant, all‑majors student portfolio: academics, projects, activities, and contact." />
+  <meta property="og:type" content="website" />
+  <meta name="theme-color" content="#7758F6" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Literata:opsz,wght@7..72,500;7..72,700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg: #0b0c10;
+      --w: clamp(320px, 92vw, 1100px);
+      --bg-alt:#0f1117;
+      --text:#E6E9EF;
+      --muted:#A5AEC0;
+      --accent:#8B7BFF;
+      --accent-2:#FF7E67;
+      --input-bg:#1b1c24;
+      --input-border:#2a2b35;
+      --pill-bg:rgba(139,123,255,.25);
+      --pill-text:#E6E9EF;
+      --card: rgba(255,255,255,.04);
+      --shadow: 0 10px 30px rgba(0,0,0,.35), 0 3px 8px rgba(0,0,0,.25);
+    }
+
+
+    :root[data-theme="light"]{
+      --bg:#fbfbfe;
+      --bg-alt:#ffffff;
+      --text:#10131C;
+      --muted:#4C5569;
+      --card: rgba(10,10,20,.04);
+      --input-bg:#ffffff;
+      --input-border:#d0d3e0;
+      --pill-bg:rgba(139,123,255,.12);
+      --pill-text:#10131C;
+      --shadow: 0 16px 40px rgba(20,20,40,.08), 0 3px 10px rgba(20,20,40,.05);
+    }
+
+    input,
+    textarea {
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      color: var(--text);
+      border-radius: 8px;
+      padding: 8px;
+    }
+
+    
+    *,*::before,*::after{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      color:var(--text);
+      background:radial-gradient(1200px 600px at 90% -10%, rgba(139,123,255,.15), transparent 60%),
+                 radial-gradient(900px 500px at -10% 110%, rgba(255,126,103,.12), transparent 60%),
+                 var(--bg);
+      line-height:1.6;
+    }
+    a{color:inherit}
+    img{max-width:100%; display:block}
+    .wrap{width:var(--w); margin-inline:auto; padding-inline:20px}
+
+    /* Header */
+    .hdr{position:sticky; top:0; z-index:50; backdrop-filter:saturate(1.1) blur(10px); background:linear-gradient( to bottom, rgba(0,0,0,.14), rgba(0,0,0,0));}
+    .hdr-inner{display:flex; align-items:center; gap:14px; justify-content:space-between; padding:16px 0}
+    .brand{display:flex; align-items:center; gap:10px; text-decoration:none}
+    .logo{display:grid; place-items:center; width:40px; aspect-ratio:1; border-radius:12px; background:linear-gradient(135deg, var(--accent), #6DE1E3); box-shadow:inset 0 0 0 1px rgba(255,255,255,.18), var(--shadow); font-weight:800}
+    .brand span{font-weight:800; letter-spacing:.3px}
+    .nav{display:flex; gap:8px; align-items:center}
+    .nav a{padding:10px 14px; text-decoration:none; border-radius:12px; color:var(--muted); font-weight:600}
+    .nav a[aria-current="page"], .nav a:hover{color:var(--text); background:var(--card)}
+    .btn{display:inline-block; padding:10px 16px; border-radius:999px; text-decoration:none; font-weight:700; border:1px solid transparent; box-shadow:var(--shadow)}
+    .btn--pri{background:linear-gradient(135deg, var(--accent), #6DE1E3); color:#0d0f14}
+    .btn--ghost{border-color:rgba(140,140,200,.25); color:var(--text); background:transparent}
+    .theme{border:none; background:transparent; color:var(--muted); padding:8px 10px; border-radius:10px}
+
+    /* Sections */
+    section{padding:64px 0}
+    .hero{display:grid; grid-template-columns: 1.1fr .9fr; gap:36px; align-items:center}
+    .title{font-family:Literata, ui-serif, Georgia, "Times New Roman", Times, serif; line-height:1.1}
+    .title-xl{font-size: clamp(36px, 5vw, 64px); font-weight:700; margin:0 0 10px}
+    .lede{font-size: clamp(16px, 1.7vw, 20px); color:var(--muted); margin:0 0 22px}
+
+    .card{background:var(--bg-alt); border-radius:var(--radius-xl); box-shadow:var(--shadow); border:1px solid rgba(130,140,220,.18)}
+    .card.pad{padding:28px}
+    .grid{display:grid; gap:18px}
+    .g-2{grid-template-columns: repeat(2, minmax(0,1fr))}
+    .g-3{grid-template-columns: repeat(3, minmax(0,1fr))}
+    @media (max-width: 900px){ .hero{grid-template-columns:1fr} .g-2,.g-3{grid-template-columns:1fr} }
+
+    .avatar{position:relative; isolation:isolate}
+    .avatar img{width:280px; aspect-ratio:1; border-radius:28px; object-fit:cover; border:3px solid rgba(255,255,255,.15)}
+    .avatar::before{content:""; position:absolute; inset:-14px; border-radius:36px; background:conic-gradient(from 210deg, var(--accent), transparent 30%, var(--accent-2), transparent 70%); filter: blur(16px); opacity:.35; z-index:-1}
+
+    .pill{display: inline-flex;align-items: center;gap: 8px;padding: 6px 10px;border-radius: 999px;background: var(--pill-bg);color: var(--pill-text);font-weight: 700;}
+    .pill svg{width:16px; height:16px}
+
+    .h2{font-size: clamp(22px, 3vw, 32px); margin:0 0 14px}
+    .muted{color:var(--muted)}
+
+    .list{display:grid; gap:12px; padding:0; margin:0; list-style:none}
+    .list li{display:flex; gap:10px}
+    .list .dot{width:10px; height:10px; border-radius:50%; background:linear-gradient(135deg, var(--accent), #6DE1E3); margin-top:8px; flex:0 0 auto}
+
+    /* Project cards */
+    .proj{display:flex; flex-direction:column; gap:12px}
+    .proj .thumb{border-radius:16px; overflow:hidden; aspect-ratio: 16/10; background:linear-gradient(135deg, rgba(139,123,255,.2), rgba(255,126,103,.2))}
+    .tagrow{display:flex; flex-wrap:wrap; gap:8px}
+    .tag{font-size:12px; padding:6px 10px; border-radius:999px; background:rgba(255,255,255,.06); border:1px solid rgba(140,140,200,.25); color:var(--muted)}
+
+    /* Timeline */
+    .timeline{display:grid; gap:16px}
+    .item{display:grid; gap:6px; padding:18px; border-radius:16px; background:var(--bg-alt); border:1px solid rgba(140,140,200,.2)}
+    .item h3{margin:0}
+    .meta{display:flex; gap:8px; flex-wrap:wrap; color:var(--muted); font-weight:600}
+
+    /* Footer */
+    footer{padding:40px 0; color:var(--muted); text-align:center}
+
+    /* Focus ring */
+    :focus-visible{outline: 3px solid var(--ring); outline-offset:2px; border-radius:10px}
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="hdr">
+    <div class="wrap hdr-inner">
+      <a class="brand" href="#home" aria-label="Go to top">
+        <span class="logo" aria-hidden="true">FL</span>
+        <span>First Last</span>
+      </a>
+      <nav class="nav" aria-label="Primary">
+        <a href="#about" data-target="#about">About</a>
+        <a href="#highlights" data-target="#highlights">Highlights</a>
+        <a href="#work" data-target="#work">Experience</a>
+        <a href="#projects" data-target="#projects">Portfolio</a>
+        <a href="#contact" data-target="#contact">Contact</a>
+        <button id="theme" class="theme" aria-label="Toggle theme">🌗</button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="home" class="wrap">
+    <!-- Hero -->
+    <section class="hero" aria-label="Intro">
+      <div>
+        <div class="pill" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-width="2" d="M3 12h18M3 6h18M3 18h18"/></svg>
+          Student • Portfolio
+        </div>
+        <h1 class="title title-xl">I’m First Last — a motivated student building experience and impact.</h1>
+        <p class="lede">I’m currently studying <strong>[Your Major]</strong> at <strong>[Your School]</strong>. I love taking ideas from class projects and activities into real outcomes: research posters, community initiatives, performances, and polished reports.
+        </p>
+        <div class="grid g-2" style="margin-top:16px">
+          <a class="btn btn--pri" href="#projects">See my work</a>
+          <a class="btn btn--ghost" href="#contact">Contact me</a>
+        </div>
+      </div>
+      <div class="avatar">
+        <img src="./meiHeadDivision.jpg" alt="Portrait of First Last">
+      </div>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="grid g-2">
+      <div class="card pad">
+        <h2 class="h2">About</h2>
+        <p>Curious, collaborative, and deadline‑reliable. My interests span <em>communication</em>, <em>data storytelling</em>, and <em>community engagement</em>. I’m seeking opportunities where I can learn quickly, contribute, and grow.</p>
+        <ul class="list" style="margin-top:10px">
+          <li><span class="dot"></span>Currently: <strong>Student, [Year]</strong>, [Major], [School]</li>
+          <li><span class="dot"></span>Looking for: <strong>Internships</strong> / <strong>Research</strong> / <strong>Assistantships</strong></li>
+          <li><span class="dot"></span>Interests: Outreach, design, applied analytics, education, writing, performance</li>
+        </ul>
+      </div>
+      <div class="card pad">
+        <h2 class="h2">Quick Facts</h2>
+        <ul class="list">
+          <li><span class="dot"></span><strong>GPA:</strong> 3.X / 4.0</li>
+          <li><span class="dot"></span><strong>Clubs:</strong> [Club 1], [Club 2], [Volunteer Group]</li>
+          <li><span class="dot"></span><strong>Languages/Tools:</strong> Excel • Canva • Google Suite • Presentations • Research methods</li>
+          <li><span class="dot"></span><strong>Soft Skills:</strong> communication, leadership, event planning, teaching peers, collaboration</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Highlights (works for any major) -->
+    <section id="highlights" class="grid g-3">
+      <article class="card pad">
+        <h3 class="h2">Academic</h3>
+        <p class="muted">Posters, papers, labs, recitals, studios, exhibitions</p>
+        <ul class="list">
+          <li><span class="dot"></span>Poster: <strong>Urban Heat Islands</strong> — mapped campus temperatures and proposed shade plan.</li>
+          <li><span class="dot"></span>Studio: <strong>Designing for Accessibility</strong> — prototype wayfinding signage.</li>
+        </ul>
+      </article>
+      <article class="card pad">
+        <h3 class="h2">Campus & Community</h3>
+        <p class="muted">Clubs, outreach, service, leadership</p>
+        <ul class="list">
+          <li><span class="dot"></span>Organized a <strong>study‑skills workshop</strong> for 60+ students (feedback avg 4.7/5).</li>
+          <li><span class="dot"></span>Volunteered with <strong>Food Bank</strong> — logistics & weekend drives.</li>
+        </ul>
+      </article>
+      <article class="card pad">
+        <h3 class="h2">Work & Skills</h3>
+        <p class="muted">Part‑time jobs, internships, freelancing</p>
+        <ul class="list">
+          <li><span class="dot"></span>Front desk at <strong>Wellness Center</strong> — scheduling, intake, and communication.</li>
+          <li><span class="dot"></span>Freelance <strong>presentation design</strong> for local non‑profit.</li>
+        </ul>
+      </article>
+    </section>
+
+    <!-- Experience / timeline -->
+    <section id="work">
+      <div class="grid g-2">
+        <div class="card pad">
+          <h2 class="h2">Experience</h2>
+          <div class="timeline">
+            <article class="item">
+              <div class="meta">Part‑time • 2024 — Present</div>
+              <h3>Student Tutor — Writing Center</h3>
+              <p>Help peers brainstorm, outline, and revise essays. Led 6 pop‑up workshops on research literacy.</p>
+            </article>
+            <article class="item">
+              <div class="meta">Internship • Summer 2024</div>
+              <h3>Community Outreach Intern — City Arts</h3>
+              <p>Coordinated volunteers, wrote event briefs, and managed social updates; increased turnout by 28%.</p>
+            </article>
+          </div>
+        </div>
+        <div class="card pad">
+          <h2 class="h2">Awards & Recognition</h2>
+          <ul class="list">
+            <li><span class="dot"></span>Dean’s List (2024)</li>
+            <li><span class="dot"></span>First‑Year Writing Prize (Honorable Mention)</li>
+            <li><span class="dot"></span>Phi Theta Kappa — Member</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects/Portfolio (non‑tech friendly) -->
+    <section id="projects">
+      <div class="grid g-3">
+        <article class="proj card pad">
+          <div class="thumb"><img src="https://images.unsplash.com/photo-1520975922284-21f4e4a1a465?q=80&w=1200&auto=format&fit=crop" alt="Poster thumbnail"></div>
+          <h3>Research Poster — Heat Islands</h3>
+          <p class="muted">Mapped campus temperatures with handheld sensors; wrote a 1‑page brief with recommendations.</p>
+          <div class="tagrow"><span class="tag">Research</span><span class="tag">GIS</span><span class="tag">Writing</span></div>
+          <div><a class="btn btn--ghost" href="#" aria-label="Open poster PDF">View PDF</a></div>
+        </article>
+        <article class="proj card pad">
+          <div class="thumb"><img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=1200&auto=format&fit=crop" alt="Workshop photo"></div>
+          <h3>Study Skills Workshop</h3>
+          <p class="muted">Planned session, designed slides, collected feedback; created a reusable resource pack.</p>
+          <div class="tagrow"><span class="tag">Teaching</span><span class="tag">Design</span><span class="tag">Leadership</span></div>
+          <div><a class="btn btn--ghost" href="#">Slides</a></div>
+        </article>
+        <article class="proj card pad">
+          <div class="thumb"><img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=1200&auto=format&fit=crop" alt="Performance"></div>
+          <h3>Performance — Jazz Ensemble</h3>
+          <p class="muted">Alto sax; spring show setlist arrangement and promotion with campus media club.</p>
+          <div class="tagrow"><span class="tag">Performance</span><span class="tag">Arts</span><span class="tag">Teamwork</span></div>
+          <div><a class="btn btn--ghost" href="#">Program</a></div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="grid g-2">
+      <div class="card pad">
+        <h2 class="h2">Let’s connect</h2>
+        <p class="muted">Email is best. I’m also happy to share a resume, transcripts, or references upon request.</p>
+        <ul class="list">
+          <li><span class="dot"></span><strong>Email:</strong> <a href="mailto:first.last@school.edu">first.last@school.edu</a></li>
+          <li><span class="dot"></span><strong>LinkedIn:</strong> <a href="#">/in/your‑handle</a></li>
+          <li><span class="dot"></span><strong>Download:</strong> <a href="#">1‑page resume (PDF)</a></li>
+        </ul>
+      </div>
+      <form class="card pad" aria-label="Contact form" onsubmit="return false">
+        <h2 class="h2">Message me</h2>
+        <div class="grid" style="gap:10px">
+          <label> Name <input id="name" required style="width:100%"></label>
+          <label> Email <input id="email" type="email" required style="width:100%"></label>
+          <label> Message <textarea id="message" rows="4" required style="width:100%"></textarea></label>
+        </div>
+        <div style="display:flex; gap:12px; align-items:center; margin-top:12px">
+          <button id="send" class="btn btn--pri" type="submit">Send</button>
+          <span id="status" class="muted" role="status"></span>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <p>© <span id="year"></span> First Last — Crafted with care.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Smooth scroll without leaving hashes in the URL
+    document.querySelectorAll('a[data-target]').forEach(a => {
+      a.addEventListener('click', e => {
+        e.preventDefault();
+        const id = a.getAttribute('data-target');
+        const el = document.querySelector(id);
+        if (el) el.scrollIntoView({ behavior:'smooth', block:'start'});
+        history.replaceState(null,'', location.pathname + location.search);
+        document.querySelectorAll('.nav a').forEach(x=>x.removeAttribute('aria-current'));
+        a.setAttribute('aria-current','page');
+      })
+    })
+
+    // Basic section spy (updates nav state)
+    const links = [...document.querySelectorAll('.nav a[data-target]')];
+    const map = new Map(links.map(a => [a.getAttribute('data-target'), a]));
+    const io = new IntersectionObserver((entries)=>{
+      const vis = entries.filter(e=>e.isIntersecting).sort((a,b)=>b.intersectionRatio - a.intersectionRatio)[0];
+      if(!vis) return;
+      links.forEach(x=>x.removeAttribute('aria-current'));
+      const tgt = '#' + vis.target.id;
+      if(map.has(tgt)) map.get(tgt).setAttribute('aria-current','page');
+    }, { threshold:[0.25,0.5,0.75] });
+    ['about','highlights','work','projects','contact'].forEach(id=>{
+      const el = document.getElementById(id); if(el) io.observe(el);
+    });
+
+    // Theme toggle (data-theme + system preference + persistence)
+    const root = document.documentElement;
+    const themeBtn = document.getElementById('theme');
+    const storedTheme = localStorage.getItem('theme');
+    const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    const initialTheme = storedTheme || systemTheme;
+    root.setAttribute('data-theme', initialTheme);
+    themeBtn?.addEventListener('click', () => {
+      const next = (root.getAttribute('data-theme') === 'dark') ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    });
+
+    // Footer year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Fake contact submit
+    document.getElementById('send')?.addEventListener('click', ()=>{
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const msg = document.getElementById('message').value.trim();
+      const status = document.getElementById('status');
+      if(!name || !email || !msg){ status.textContent = 'Please fill all fields.'; return; }
+      status.textContent = 'Thanks! Your message has been queued (demo).';
+    })
+  </script>
+</body>
+</html>
